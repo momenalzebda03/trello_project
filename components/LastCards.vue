@@ -16,7 +16,6 @@
 </template>
 
 <script setup>
-// import axios from "axios";
 const boolen = ref(false);
 const tagBlock = ref(true);
 const tagNone = ref(false);
@@ -39,8 +38,11 @@ function closeCard() {
 }
 
 const postMainTitle = async () => {
-    await axios.post("http://localhost:3000/Trello", {
-        MainTitle: MainTitle.value
+    await useFetch("http://localhost:3000/Trello", {
+        method: "post",
+        body: {
+            MainTitle: MainTitle.value
+        }
     }).catch(error => {
         console.log(error);
     });
