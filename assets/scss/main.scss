@@ -1,10 +1,23 @@
 @import "color";
 
 // start public
-body {
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+    background-color: $color_scrollbackground;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 20px;
+    background: $color_scroll;
+}
+
+#__nuxt {
     text-transform: capitalize;
     background: -webkit-linear-gradient(118deg, $color_body1, $color_body2);
     background: linear-gradient(118deg, $color_body1, $color_body2);
+    min-width: max-content;
     background-repeat: no-repeat;
     height: 100vh;
 }
@@ -13,27 +26,94 @@ body {
     cursor: pointer;
 }
 
+.text_header {
+    color: $color_header;
+}
+
+.color_text {
+    color: $color_text;
+}
+
 // end public
 
 // start navbar
-header {
+body header {
     background-color: $color_navbar;
 }
 
 // end navbar
 
 // start main
-.div_all {
-    max-width: 270px;
+body div .div_all {
+    min-width: 270px;
 }
 
-.title_size {
-    font-size: 15px;
+body div .div_all div .icon_top1 .title_size {
+    font-size: 14px;
 }
 
-.hover_icon {
+body div .div_all div div .hover_icon {
     color: $color_icon;
+}
+
+body div .div_all div div .hover_icon:hover {
     background-color: $color_hover;
 }
 
+body .div_lastcards .div_cards .icon_top {
+    margin-top: 3px;
+}
+
+body div .div_all div .icon_top1 {
+    margin-top: 10px;
+}
+
+body .div_lastcards {
+    background-color: $color_add;
+    height: 50px;
+    margin-right: 10px;
+    transition: 0.3s;
+}
+
+body .div_lastcards:hover {
+    background-color: $color_hover;
+}
+
+body div .div_all div .icon_top1 .div_bottom {
+    gap: 8px;
+    margin-left: -10px;
+    padding-left: 12px !important;
+}
+
+body div .div_all div .icon_top1 .div_bottom:hover {
+    background-color: $color_hover;
+}
+
+body .card_list {
+    background-color: $color_black !important;
+    height: 110px !important;
+}
+
+body .div_lastcards form .inputAdd {
+    width: 95%;
+    background-color: $color_input;
+}
+
+body .div_lastcards form .inputAdd:focus {
+    outline: 2px solid $color_foucs;
+}
+
 // end main
+// start media
+@media(max-width: 990px) {
+    .div_all {
+        width: 90%;
+    }
+
+    #__nuxt {
+        min-height: 100%;
+        padding-bottom: 23px;
+    }
+}
+
+// end media
