@@ -8,8 +8,10 @@ export class ApiService {
     }).catch((error) => {
       console.log(error);
     });
-    this.fetchGet();
+    const data = await this.fetchGet();
+    return data;
   }
+
   static async fetchGet() {
     return fetch("http://localhost:3000/Trello")
       .then((response) => {

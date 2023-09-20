@@ -1,6 +1,6 @@
 <template>
     <div class="d-flex gap-3 flex-column flex-md-row">
-        <div class="text-white bg-black py-3 px-3 rounded-3 d-flex div_all" v-for="post in posts" :key="post">
+        <div class="text-white bg-black pt-1 pb-3 px-3 rounded-3 d-flex div_all" v-for="post in posts" :key="post">
             <div class="d-flex justify-content-between w-100">
                 <div class="d-flex flex-column gap-3 icon_top1 w-100">
                     <h2 class="title_size text_header">{{ post.MainTitle }}</h2>
@@ -19,17 +19,5 @@
 </template>
 
 <script setup>
-const posts = ref("");
-
-const getapi = ApiService.fetchGet = defineProps(("reloadApi"))
-
-onMounted(async () => {
-    ApiService.fetchGet()
-        .then((data) => {
-            posts.value = data;
-        })
-        .catch((error) => {
-            console.error(error);
-        });
-});
+const props = defineProps(['posts']);
 </script>
