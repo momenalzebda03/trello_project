@@ -8,8 +8,6 @@ export class ApiService {
     }).catch((error) => {
       console.log(error);
     });
-    const data = await this.fetchGet();
-    return data;
   }
 
   static async fetchGet() {
@@ -25,4 +23,40 @@ export class ApiService {
         throw error;
       });
   }
+
+  static async DeleteTitle(id) {
+    await useFetch(`http://localhost:3000/Trello/${id}`, {
+      method: "delete",
+    }).catch((error) => {
+      console.log(error);
+    });
+  }
+
+  static async addMainTitle(MainTitle, posts) {
+    await ApiService.postMainTitle(MainTitle.value)
+      .then(() => {
+        MainTitle.value = "";
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    await this.fetchReload(posts);
+  }
+
+  static async fetchReload(posts) {
+    ApiService.fetchGet()
+      .then((data) => {
+        posts.value = data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  // static async DeleteId(id) {
+  //   await ApiService.DeleteTitle(id).catch((error) => {
+  //     console.log(error);
+  //   });
+  //   await this.fetchReload();
+  // }
 }

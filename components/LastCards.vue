@@ -27,23 +27,8 @@ const tagBlock = ref(true);
 const tagNone = ref(false);
 const inputFoucs = ref(null);
 
-const addMainTitle = async () => {
-    await ApiService.postMainTitle(MainTitle.value).then(() => {
-        MainTitle.value = '';
-        fetchReload();
-    }).catch(error => {
-        console.log(error);
-    })
-};
-
-const fetchReload = async () => {
-    ApiService.fetchGet()
-        .then((data) => {
-            posts.value = data;
-        })
-        .catch((error) => {
-            console.error(error);
-        });
+function addMainTitle() {
+    ApiService.addMainTitle(MainTitle, posts);
 };
 
 function control() {
@@ -65,6 +50,6 @@ onMounted(async () => {
     document.addEventListener("click", closeCard, {
         capture: true
     });
-    await fetchReload(posts);
+    await ApiService.fetchReload(posts);
 });
 </script>
