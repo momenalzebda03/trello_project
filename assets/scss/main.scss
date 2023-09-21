@@ -19,7 +19,7 @@
     background: linear-gradient(118deg, $color_body1, $color_body2);
     min-width: max-content;
     background-repeat: no-repeat;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .mouse_all {
@@ -71,6 +71,8 @@ body div div div .hover_icon {
     color: $color_icon;
 }
 
+body div .div_all .div_bottom:hover,
+body .div_lastcards:hover,
 body div div div .hover_icon:hover {
     background-color: $color_hover;
 }
@@ -90,18 +92,10 @@ body .div_lastcards {
     transition: 0.3s;
 }
 
-body .div_lastcards:hover {
-    background-color: $color_hover;
-}
-
 body div .div_all .div_bottom {
     gap: 8px;
     margin-left: -10px;
     padding-left: 12px !important;
-}
-
-body div .div_all .div_bottom:hover {
-    background-color: $color_hover;
 }
 
 body .card_list {
@@ -123,17 +117,34 @@ body div .div_all div div .divDelete {
 
 }
 
-body div textarea {
+body div input {
     background-color: $color_input;
     resize: none !important;
 }
 
-body div textarea:focus {
+body div input:focus {
     outline: 2px solid $color_foucs;
 }
 
 body div .div_all .cardBlock {
     display: block;
+}
+
+body .divTitle {
+    background-color: $color_input;
+}
+
+body .divTitle:hover {
+    background-color: $color_icon;
+
+    .iconPeincle {
+        cursor: pointer;
+        display: block !important;
+    }
+}
+
+body .spanSize {
+    font-size: 14px;
 }
 
 // end main

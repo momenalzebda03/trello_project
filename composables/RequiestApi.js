@@ -1,5 +1,4 @@
 const baseUrl = "http://localhost:3000";
-import axios from "axios";
 
 export class ApiService {
   static async postMainTitle(ApiTerllo, MainTitle) {
@@ -56,9 +55,6 @@ export class ApiService {
             "Content-Type": "application/json",
           },
         });
-      })
-      .then((putResponse) => {
-        console.log(baseUrl);
       })
       .catch((error) => {
         console.error(error);

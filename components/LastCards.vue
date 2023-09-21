@@ -1,5 +1,5 @@
 <template>
-    <cards :posts="posts" @delete-post="deletePost" />
+    <cards :posts="posts" @reloadDelete="deletePost" @reloadTitle="functionReload" />
     <div class="text-white rounded-3 div_all div_lastcards d-flex" :class="{ 'card_list': boolen }">
         <div class="d-flex gap-2 w-100 ps-3 pt-3 div_cards mouse_all" v-if="tagBlock" @click="control">
             <i class="mt-1 icon_top fas fa-plus"></i>
@@ -26,15 +26,6 @@ const tagBlock = ref(true);
 const tagNone = ref(false);
 const inputFocus = ref(null);
 
-const addMainTitle = async (ApiTerllo) => {
-    await ApiService.postMainTitle("Trello", MainTitle.value).then(() => {
-        MainTitle.value = '';
-        fetchReload();
-    }).catch(error => {
-        console.log(error);
-    });
-};
-
 const fetchReload = async (ApiTerllo) => {
     ApiService.fetchGet(`Trello`)
         .then((data) => {
@@ -43,6 +34,18 @@ const fetchReload = async (ApiTerllo) => {
         .catch((error) => {
             console.error(error);
         });
+};
+
+const addMainTitle = async () => {
+    if (MainTitle.value.trim() === '') {
+        return;
+    }
+    await ApiService.postMainTitle("Trello", MainTitle.value).then(() => {
+        MainTitle.value = '';
+        fetchReload();
+    }).catch(error => {
+        console.log(error);
+    });
 };
 
 function control() {
@@ -60,23 +63,27 @@ function closeCard() {
     tagNone.value = false;
 }
 
-onMounted(async () => {
-    document.addEventListener("click", closeCard, {
-        capture: true
-    });
-    await fetchReload(posts);
-});
+const deletePost = async (api, id) => {
+    await ApiService.DeleteTitle("Trello", id);
+    fetchReload();
+}
 
-async (ApiTerllo, id) => {
-    await ApiService.DeleteTitle("Trello", id).then(() => {
+const functionReload = async (postId, cardTitle) => {
+    if (cardTitle.trim() === '') {
+        return;
+    }
+    await ApiService.ApiPost("Trello", postId, cardTitle).then(() => {
+        cardTitle.value = '';
         fetchReload();
     }).catch(error => {
         console.log(error);
     });
 };
 
-const deletePost = async (api, id) => {
-    await ApiService.DeleteTitle("Trello", id)
-    fetchReload();
-}
+onMounted(async () => {
+    document.addEventListener("click", closeCard, {
+        capture: true
+    });
+    await fetchReload(posts);
+});
 </script>
