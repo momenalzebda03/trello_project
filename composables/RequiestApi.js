@@ -1,6 +1,9 @@
+const baseUrl = "http://localhost:3000";
+import axios from "axios";
+
 export class ApiService {
-  static async postMainTitle(MainTitle) {
-    await useFetch("http://localhost:3000/Trello", {
+  static async postMainTitle(ApiTerllo, MainTitle) {
+    await useFetch(`${baseUrl}/${ApiTerllo}`, {
       method: "post",
       body: {
         MainTitle: MainTitle,
@@ -10,8 +13,8 @@ export class ApiService {
     });
   }
 
-  static async fetchGet() {
-    return fetch("http://localhost:3000/Trello")
+  static async fetchGet(ApiTerllo) {
+    return fetch(`${baseUrl}/${ApiTerllo}`)
       .then((response) => {
         return response.json();
       })
@@ -24,39 +27,41 @@ export class ApiService {
       });
   }
 
-  static async DeleteTitle(id) {
-    await useFetch(`http://localhost:3000/Trello/${id}`, {
+  static async DeleteTitle(ApiTerllo, id) {
+    await useFetch(`${baseUrl}/${ApiTerllo}/${id}`, {
       method: "delete",
     }).catch((error) => {
       console.log(error);
     });
   }
 
-  static async addMainTitle(MainTitle, posts) {
-    await ApiService.postMainTitle(MainTitle.value)
-      .then(() => {
-        MainTitle.value = "";
+  static async ApiPost(ApiTerllo, postId, cardTitle) {
+    fetch(`${baseUrl}/${ApiTerllo}/${postId}`)
+      .then((response) => {
+        return response.json();
+      })
+      .then((trelloapi) => {
+        const newCard = {
+          id: Math.floor(Math.random() * 1000),
+          titleCard: cardTitle,
+        };
+        if (!trelloapi.cards) {
+          trelloapi.cards = [];
+        }
+        trelloapi.cards.push(newCard);
+        return fetch(`${baseUrl}/${ApiTerllo}/${postId}`, {
+          method: "PUT",
+          body: JSON.stringify(trelloapi),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+      })
+      .then((putResponse) => {
+        console.log(baseUrl);
       })
       .catch((error) => {
-        console.log(error);
-      });
-    await this.fetchReload(posts);
-  }
-
-  static async fetchReload(posts) {
-    ApiService.fetchGet()
-      .then((data) => {
-        posts.value = data;
-      })
-      .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   }
-
-  // static async DeleteId(id) {
-  //   await ApiService.DeleteTitle(id).catch((error) => {
-  //     console.log(error);
-  //   });
-  //   await this.fetchReload();
-  // }
 }
