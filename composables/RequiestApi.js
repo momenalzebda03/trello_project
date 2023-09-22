@@ -35,7 +35,7 @@ export class ApiService {
   }
 
   static async ApiPost(ApiTerllo, postId, cardTitle) {
-    fetch(`${baseUrl}/${ApiTerllo}/${postId}`)
+    return fetch(`${baseUrl}/${ApiTerllo}/${postId}`)
       .then((response) => {
         return response.json();
       })
@@ -55,6 +55,9 @@ export class ApiService {
             "Content-Type": "application/json",
           },
         });
+      })
+      .then(() => {
+        return `${baseUrl}/${ApiTerllo}`;
       })
       .catch((error) => {
         console.error(error);

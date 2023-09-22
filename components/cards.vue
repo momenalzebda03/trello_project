@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex flex-column gap-3 text-white bg-black px-3 rounded-3 div_all h-100 pb-3"
+    <section class="d-flex flex-column gap-3 text-white bg-black px-3 rounded-3 div_all h-100 pb-3"
         v-for="(post, index) in posts" :key="post.id">
         <div class="d-flex justify-content-between align-items-center p-1">
             <h2 class="mb-0 title_size text_header">{{ post.MainTitle }}</h2>
@@ -33,7 +33,7 @@
                 <i class="color_text fas fa-times fs-4 mouse_all" @click="closeCard(post.id)"></i>
             </div>
         </form>
-    </div>
+    </section>
 </template>
 
 <script setup>

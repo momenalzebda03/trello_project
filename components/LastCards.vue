@@ -1,6 +1,6 @@
 <template>
-    <cards :posts="posts" @reloadDelete="deletePost" @reloadTitle="functionReload" />
-    <div class="text-white rounded-3 div_all div_lastcards d-flex" :class="{ 'card_list': boolen }">
+    <cards :posts="posts" @reloadDelete="deletePost" @reloadTitle="postTitleCard" />
+    <section class="text-white rounded-3 div_all div_lastcards d-flex" :class="{ 'card_list': boolen }">
         <div class="d-flex gap-2 w-100 ps-3 pt-3 div_cards mouse_all" v-if="tagBlock" @click="control">
             <i class="mt-1 icon_top fas fa-plus"></i>
             <h2 class="fs-6 title_size">add another list</h2>
@@ -15,7 +15,7 @@
                 </div>
             </div>
         </form>
-    </div>
+    </section>
 </template>
 
 <script setup>
@@ -68,12 +68,12 @@ const deletePost = async (api, id) => {
     fetchReload();
 }
 
-const functionReload = async (postId, cardTitle) => {
+const postTitleCard = async (postId, cardTitle) => {
     if (cardTitle.trim() === '') {
         return;
     }
     await ApiService.ApiPost("Trello", postId, cardTitle).then(() => {
-        cardTitle.value = '';
+        cardTitle = '';
         fetchReload();
     }).catch(error => {
         console.log(error);
