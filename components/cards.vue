@@ -13,7 +13,8 @@
                 </div>
             </div>
         </div>
-        <text-card :cards="post.cards" :postId="post.id" />
+        <text-card :cards="post.cards" :postId="post.id" @functionDelete="emitDataToParent" />
+        <!-- <text-card :cards="post.cards" :postId="post.id" @functionDelete="emitDataToParent, $emit('emitDataToParent')" /> -->
         <div class=" d-flex justify-content-between pe-1" :class="{ 'd-none': textNone[post.id] }"
             @click="cardBlock(post.id, index)">
             <div class="div_bottom mouse_all color_text py-1 rounded-3 d-flex align-items-center w-100 p-2">
@@ -43,6 +44,11 @@ const textBlock = ref({});
 const textNone = ref({});
 const textArea = ref([]);
 const cardTitle = ref("");
+const emit = defineEmits(["emitDataToParent"]);
+
+function emitDataToParent(cardId, postId) {
+    emit("emitDataToParent", cardId, postId);
+}
 
 function showDelete(postId) {
     deleteBoolen.value[postId] = true;

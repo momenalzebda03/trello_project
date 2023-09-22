@@ -65,7 +65,7 @@ export class ApiService {
   }
 
   static async deleteCard(cardId, postId, urlTrello) {
-    fetch(`${baseUrl}/${urlTrello}/${postId}`)
+    return fetch(`${baseUrl}/${urlTrello}/${postId}`)
       .then((fetchResponse) => {
         return fetchResponse.json();
       })

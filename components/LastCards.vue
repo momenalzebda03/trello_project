@@ -1,5 +1,5 @@
 <template>
-    <cards :posts="posts" @reloadDelete="deletePost" @reloadTitle="postTitleCard" />
+    <cards :posts="posts" @reloadDelete="deletePost" @reloadTitle="postTitleCard" @emitDataToParent="reloadApi" />
     <section class="text-white rounded-3 div_all div_lastcards d-flex" :class="{ 'card_list': boolen }">
         <div class="d-flex gap-2 w-100 ps-3 pt-3 div_cards mouse_all" v-if="tagBlock" @click="control">
             <i class="mt-1 icon_top fas fa-plus"></i>
@@ -79,6 +79,11 @@ const postTitleCard = async (postId, cardTitle) => {
         console.log(error);
     });
 };
+
+const reloadApi = async (cardId, postId, urlTrello) => {
+    await ApiService.deleteCard(cardId, postId, 'Trello');
+    fetchReload();
+}
 
 onMounted(async () => {
     document.addEventListener("click", closeCard, {
