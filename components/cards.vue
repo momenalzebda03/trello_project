@@ -13,7 +13,7 @@
                 </div>
             </div>
         </div>
-        <text-card :cards="post.cards" />
+        <text-card :cards="post.cards" :postId="post.id" />
         <div class=" d-flex justify-content-between pe-1" :class="{ 'd-none': textNone[post.id] }"
             @click="cardBlock(post.id, index)">
             <div class="div_bottom mouse_all color_text py-1 rounded-3 d-flex align-items-center w-100 p-2">

@@ -63,4 +63,32 @@ export class ApiService {
         console.error(error);
       });
   }
+
+  static async deleteCard(cardId, postId, urlTrello) {
+    fetch(`${baseUrl}/${urlTrello}/${postId}`)
+      .then((fetchResponse) => {
+        return fetchResponse.json();
+      })
+      .then((trelloapi) => {
+        const cardIndexToDelete = trelloapi.cards.findIndex(
+          (item) => item.id == cardId
+        );
+        if (cardIndexToDelete !== -1) {
+          trelloapi.cards.splice(cardIndexToDelete, 1);
+          return fetch(`http://localhost:3000/Trello/${postId}`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(trelloapi),
+          });
+        }
+      })
+      .then(() => {
+        return `${baseUrl}/${urlTrello}`;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
 }

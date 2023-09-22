@@ -84,6 +84,6 @@ onMounted(async () => {
     document.addEventListener("click", closeCard, {
         capture: true
     });
-    await fetchReload(posts);
+    await fetchReload();
 });
 </script>
