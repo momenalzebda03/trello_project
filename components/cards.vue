@@ -8,13 +8,13 @@
                 <div class="mouse_all divDelete deleteNone position-absolute top-0"
                     :class="{ 'd-block': deleteBoolen[post.id] }">
                     <div class="bg-black p-2 rounded-3">
-                        <span @click="$emit('reloadDelete', 'Trello', post.id)">delete</span>
+                        <span @click="deletePost('Trello', post.id)">delete</span>
+                        <!-- <span @click="$emit('reloadDelete', 'Trello', post.id)">delete</span> -->
                     </div>
                 </div>
             </div>
         </div>
         <text-card :cards="post.cards" :postId="post.id" @functionDelete="emitDataToParent" />
-        <!-- <text-card :cards="post.cards" :postId="post.id" @functionDelete="emitDataToParent, $emit('emitDataToParent')" /> -->
         <div class=" d-flex justify-content-between pe-1" :class="{ 'd-none': textNone[post.id] }"
             @click="cardBlock(post.id, index)">
             <div class="div_bottom mouse_all color_text py-1 rounded-3 d-flex align-items-center w-100 p-2">
@@ -26,8 +26,8 @@
             <i class="fas fa-save mouse_all hover_icon p-2 rounded-2"></i>
         </div>
         <form class="deleteNone align-items-center gap-2" :class="{ 'd-block': textBlock[post.id] }"
-            @submit.prevent="$emit('reloadTitle', post.id, cardTitle)">
-            <input placeholder="enter a title for this card..." ref="textArea" @click="cardBlock(post.id, index)"
+            @submit.prevent="addList(post.id, cardTitle)">
+            <input placeholder="enter a title for this card..." ref="inputFoucs" @click="cardBlock(post.id, index)"
                 class="rounded-3 text-white ps-2 border border-0 w-100 py-3" v-model="cardTitle" />
             <div class="d-flex gap-2 align-items-center mt-2">
                 <button type="submit" class="p-1 px-3 text-black btn btn-primary">add list</button>
@@ -42,9 +42,17 @@ const { posts } = defineProps(['posts']);
 const deleteBoolen = ref({});
 const textBlock = ref({});
 const textNone = ref({});
-const textArea = ref([]);
-const cardTitle = ref("");
-const emit = defineEmits(["emitDataToParent"]);
+const inputFoucs = ref([]);
+const cardTitle = ref('');
+
+const emit = defineEmits(["emitDataToParent", "reloadDelete", "reloadTitle"]);
+function deletePost(urlTrello, postId) {
+    emit("reloadDelete", urlTrello, postId);
+}
+
+function addList(urlTrello, postId, cardTitle) {
+    emit("reloadTitle", urlTrello, postId, cardTitle);
+}
 
 function emitDataToParent(cardId, postId) {
     emit("emitDataToParent", cardId, postId);
@@ -84,8 +92,8 @@ function cardBlock(postId, index) {
     });
 
     setTimeout(() => {
-        if (textArea.value[index])
-            textArea.value[index].focus();
+        if (inputFoucs.value[index])
+            inputFoucs.value[index].focus();
     }, 1)
 
     textBlock.value[postId] = !textBlock.value[postId];
