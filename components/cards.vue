@@ -9,7 +9,6 @@
                     :class="{ 'd-block': deleteBoolen[post.id] }">
                     <div class="bg-black p-2 rounded-3">
                         <span @click="deletePost('Trello', post.id)">delete</span>
-                        <!-- <span @click="$emit('reloadDelete', 'Trello', post.id)">delete</span> -->
                     </div>
                 </div>
             </div>
@@ -50,8 +49,9 @@ function deletePost(urlTrello, postId) {
     emit("reloadDelete", urlTrello, postId);
 }
 
-function addList(urlTrello, postId, cardTitle) {
-    emit("reloadTitle", urlTrello, postId, cardTitle);
+function addList(urlTrello, postId) {
+    emit("reloadTitle", urlTrello, postId);
+    cardTitle.value = '';
 }
 
 function emitDataToParent(cardId, postId) {

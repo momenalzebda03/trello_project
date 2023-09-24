@@ -41,8 +41,8 @@ const addMainTitle = async () => {
         return;
     }
     await ApiService.postMainTitle("Trello", MainTitle.value).then(() => {
-        MainTitle.value = '';
         fetchReload();
+        return MainTitle.value = '';
     }).catch(error => {
         console.log(error);
     });
@@ -72,8 +72,10 @@ const postTitleCard = async (postId, cardTitle, urlTrello) => {
     if (cardTitle.trim() === '') {
         return;
     }
+
     await ApiService.ApiPost("Trello", postId, cardTitle).then(() => {
         fetchReload();
+        return cardTitle = '';
     }).catch(error => {
         console.log(error);
     });
