@@ -49,9 +49,9 @@ function deletePost(urlTrello, postId) {
     emit("reloadDelete", urlTrello, postId);
 }
 
-function addList(urlTrello, postId) {
-    emit("reloadTitle", urlTrello, postId);
-    cardTitle.value = '';
+function addList(postId, cardTitle) {
+    emit("reloadTitle", postId, cardTitle);
+    cardTitle = '';
 }
 
 function emitDataToParent(cardId, postId) {
