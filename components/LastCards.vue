@@ -19,7 +19,6 @@
 </template>
 
 <script setup>
-
 const MainTitle = ref('');
 const posts = ref([]);
 const boolen = ref(false);
@@ -47,20 +46,20 @@ const reload = async () => {
     return posts.value = data.value;
 };
 
-// const postMainTitle = async () => {
-//     if (MainTitle.value.trim() === '') {
-//         return;
-//     }
-//     const postData = {
-//         MainTitle: MainTitle.value,
-//     };
-//     await allRequeste.request("http://localhost:3000/Trello", { method: "post", body: postData }).then(() => {
-//         reload();
-//         MainTitle.value = '';
-//     }).catch(error => {
-//         console.error(error);
-//     })
-// };
+const postMainTitle = async () => {
+    if (MainTitle.value.trim() === '') {
+        return;
+    }
+    const postData = {
+        MainTitle: MainTitle.value,
+    };
+    await allRequeste.request("http://localhost:3000/Trello", { method: "post", body: postData }).then(() => {
+        reload();
+        MainTitle.value = '';
+    }).catch(error => {
+        console.error(error);
+    })
+};
 
 const deletePost = async (id) => {
     await useFetch(`http://localhost:3000/Trello/${id}`, {
@@ -88,46 +87,16 @@ const ApiPost = async (postId, cardTitle) => {
                 trelloapi.cards = [];
             }
             trelloapi.cards.push(newCard);
-            allRequeste.request("http://localhost:3000/Trello", { method: "PUT", body: newCard, postId });
+            const mybody = JSON.stringify(trelloapi);
+            allRequeste.request(`http://localhost:3000/Trello/${postId}`, { method: "put", body: mybody, postId }).then(() => {
+                cardTitle = '';
+                reload();
+            })
         })
         .catch((error) => {
             console.error(error);
         });
-    reload();
-    return cardTitle = '';
 }
-
-// const ApiPost = async (postId, cardTitle) => {
-//     if (cardTitle.trim() === '') {
-//         return;
-//     }
-//     await fetch(`http://localhost:3000/Trello/${postId}`)
-//         .then((response) => {
-//             return response.json();
-//         })
-//         .then((trelloapi) => {
-//             const newCard = {
-//                 id: Math.floor(Math.random() * 1000),
-//                 titleCard: cardTitle,
-//             };
-//             if (!trelloapi.cards) {
-//                 trelloapi.cards = [];
-//             }
-//             trelloapi.cards.push(newCard);
-//             return fetch(`http://localhost:3000/Trello/${postId}`, {
-//                 method: "PUT",
-//                 body: JSON.stringify(trelloapi),
-//                 headers: {
-//                     "Content-Type": "application/json",
-//                 },
-//             });
-//         })
-//         .catch((error) => {
-//             console.error(error);
-//         });
-//     reload();
-//     return cardTitle = '';
-// }
 
 const deleteCard = async (cardId, postId) => {
     await fetch(`http://localhost:3000/Trello/${postId}`)
@@ -140,7 +109,7 @@ const deleteCard = async (cardId, postId) => {
             );
             if (cardIndexToDelete !== -1) {
                 trelloapi.cards.splice(cardIndexToDelete, 1);
-                return fetch(`http://localhost:3000/Trello/${postId}`, {
+                return useFetch(`http://localhost:3000/Trello/${postId}`, {
                     method: "PUT",
                     headers: {
                         "Content-Type": "application/json",
