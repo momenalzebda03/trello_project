@@ -8,7 +8,7 @@
                 <div class="mouse_all divDelete deleteNone position-absolute top-0"
                     :class="{ 'd-block': deleteBoolen[post.id] }">
                     <div class="bg-black p-2 rounded-3">
-                        <span @click="deletePost('Trello', post.id)">delete</span>
+                        <span @click="deletePost(post.id)">delete</span>
                     </div>
                 </div>
             </div>
@@ -45,8 +45,8 @@ const inputFoucs = ref([]);
 const cardTitle = ref('');
 
 const emit = defineEmits(["emitDataToParent", "reloadDelete", "reloadTitle"]);
-function deletePost(urlTrello, postId) {
-    emit("reloadDelete", urlTrello, postId);
+function deletePost(postId) {
+    emit("reloadDelete", postId);
 }
 
 function addList(postId, cardTitle) {
