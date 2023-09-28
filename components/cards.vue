@@ -53,14 +53,12 @@ function deletePost(postId) {
     emit("reloadDelete", postId);
 }
 
+watch(() => props.isTrue, () => {
+    cardTitle.value = '';
+});
+
 function addList(postId) {
     emit("reloadTitle", postId, cardTitle.value);
-    if (props.isTrue) {
-        cardTitle.value = '';
-        props.isTrue = false;
-    } else {
-        console.log("false");
-    }
 }
 
 function emitDataToParent(cardId, postId) {

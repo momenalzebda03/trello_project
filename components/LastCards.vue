@@ -92,7 +92,7 @@ const ApiPost = async (postId, cardTitle) => {
             const mybody = JSON.stringify(trelloapi);
             request(`http://localhost:3000/Trello/${postId}`, { method: "put", body: mybody, postId }).then(() => {
                 reload();
-                isTrue.value = true;
+                isTrue.value = !isTrue.value;
             });
         })
         .catch((error) => {
