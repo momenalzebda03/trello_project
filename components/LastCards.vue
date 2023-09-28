@@ -1,5 +1,6 @@
 <template>
-    <cards :posts="posts" @reloadDelete="deletePost" @emitDataToParent="deleteCard" @reloadTitle="ApiPost" />
+    <cards :posts="posts" @reloadDelete="deletePost" @emitDataToParent="deleteCard" @reloadTitle="ApiPost"
+        :isTrue="isTrue" />
     <section class="text-white rounded-3 div_all div_lastcards d-flex" :class="{ 'card_list': boolen }">
         <div class="d-flex gap-2 w-100 ps-3 pt-3 div_cards mouse_all" v-if="tagBlock" @click="control">
             <i class="mt-1 icon_top fas fa-plus"></i>
@@ -25,6 +26,7 @@ const boolen = ref(false);
 const tagBlock = ref(true);
 const tagNone = ref(false);
 const inputFocus = ref(null);
+const isTrue = ref(false);
 
 function control() {
     boolen.value = true;
@@ -53,7 +55,7 @@ const postMainTitle = async () => {
     const postData = {
         MainTitle: MainTitle.value,
     };
-    await allRequeste.request("http://localhost:3000/Trello", { method: "post", body: postData }).then(() => {
+    await request("http://localhost:3000/Trello", { method: "post", body: postData }).then(() => {
         reload();
         MainTitle.value = '';
     }).catch(error => {
@@ -88,10 +90,10 @@ const ApiPost = async (postId, cardTitle) => {
             }
             trelloapi.cards.push(newCard);
             const mybody = JSON.stringify(trelloapi);
-            allRequeste.request(`http://localhost:3000/Trello/${postId}`, { method: "put", body: mybody, postId }).then(() => {
-                cardTitle = '';
+            request(`http://localhost:3000/Trello/${postId}`, { method: "put", body: mybody, postId }).then(() => {
                 reload();
-            })
+                isTrue.value = true;
+            });
         })
         .catch((error) => {
             console.error(error);
@@ -109,13 +111,12 @@ const deleteCard = async (cardId, postId) => {
             );
             if (cardIndexToDelete !== -1) {
                 trelloapi.cards.splice(cardIndexToDelete, 1);
-                return useFetch(`http://localhost:3000/Trello/${postId}`, {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(trelloapi),
-                });
+                const mybody = JSON.stringify(trelloapi);
+                request(`http://localhost:3000/Trello/${postId}`, { method: "put", body: mybody, postId }).then(() => {
+                    reload();
+                }).catch(error => {
+                    console.error(error);
+                })
             }
         })
         .catch((error) => {

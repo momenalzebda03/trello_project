@@ -25,7 +25,7 @@
             <i class="fas fa-save mouse_all hover_icon p-2 rounded-2"></i>
         </div>
         <form class="deleteNone align-items-center gap-2" :class="{ 'd-block': textBlock[post.id] }"
-            @submit.prevent="addList(post.id, cardTitle)">
+            @submit.prevent="addList(post.id)">
             <input placeholder="enter a title for this card..." ref="inputFoucs" @click="cardBlock(post.id, index)"
                 class="rounded-3 text-white ps-2 border border-0 w-100 py-3" v-model="cardTitle" />
             <div class="d-flex gap-2 align-items-center mt-2">
@@ -37,21 +37,30 @@
 </template>
 
 <script setup>
-const { posts } = defineProps(['posts']);
+const props = defineProps({
+    posts: Array,
+    isTrue: Boolean,
+});
+
 const deleteBoolen = ref({});
 const textBlock = ref({});
 const textNone = ref({});
 const inputFoucs = ref([]);
 const cardTitle = ref('');
-
 const emit = defineEmits(["emitDataToParent", "reloadDelete", "reloadTitle"]);
+
 function deletePost(postId) {
     emit("reloadDelete", postId);
 }
 
-function addList(postId, cardTitle) {
-    emit("reloadTitle", postId, cardTitle);
-    cardTitle = '';
+function addList(postId) {
+    emit("reloadTitle", postId, cardTitle.value);
+    if (props.isTrue) {
+        cardTitle.value = '';
+        props.isTrue = false;
+    } else {
+        console.log("false");
+    }
 }
 
 function emitDataToParent(cardId, postId) {
