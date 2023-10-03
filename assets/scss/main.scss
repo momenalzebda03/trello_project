@@ -13,6 +13,7 @@
     background: $color_scroll;
 }
 
+body,
 #__nuxt {
     text-transform: capitalize;
     background: -webkit-linear-gradient(118deg, $color_body1, $color_body2);
@@ -145,6 +146,10 @@ body .divTitle:hover {
 
 body .spanSize {
     font-size: 14px;
+}
+
+.drag>.patent-elemet {
+    transform: rotate(15deg) !important;
 }
 
 // end main

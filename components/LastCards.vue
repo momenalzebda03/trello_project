@@ -1,6 +1,14 @@
 <template>
-    <cards :posts="posts" @reloadDelete="deletePost" @emitDataToParent="deleteCard" @reloadTitle="ApiPost"
-        :isTrue="isTrue" />
+    <draggable v-model="posts" class="d-flex gap-3 flex-column flex-md-row" drag-class="drag">
+        <template #item="{ element }">
+            <div>
+                <div class="patent-elemet">
+                    <cards :posts="element" @reloadDelete="deletePost" @emitDataToParent="deleteCard" @reloadTitle="ApiPost"
+                        :isTrue="isTrue" />
+                </div>
+            </div>
+        </template>
+    </draggable>
     <section class="text-white rounded-3 div_all div_lastcards d-flex" :class="{ 'card_list': boolen }">
         <div class="d-flex gap-2 w-100 ps-3 pt-3 div_cards mouse_all" v-if="tagBlock" @click="control">
             <i class="mt-1 icon_top fas fa-plus"></i>
@@ -20,6 +28,7 @@
 </template>
 
 <script setup>
+import draggable from 'vuedraggable';
 const MainTitle = ref('');
 const posts = ref([]);
 const boolen = ref(false);
