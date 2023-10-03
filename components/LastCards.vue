@@ -1,8 +1,8 @@
 <template>
-    <draggable v-model="posts" class="d-flex gap-3 flex-column flex-md-row" drag-class="drag">
+    <draggable v-model="posts" class="d-flex gap-3 flex-column flex-md-row" drag-class="drag" ghost-class="ghost">
         <template #item="{ element }">
             <div>
-                <div class="patent-elemet">
+                <div class="patentElemet">
                     <cards :posts="element" @reloadDelete="deletePost" @emitDataToParent="deleteCard" @reloadTitle="ApiPost"
                         :isTrue="isTrue" />
                 </div>

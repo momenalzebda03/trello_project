@@ -148,8 +148,17 @@ body .spanSize {
     font-size: 14px;
 }
 
-.drag>.patent-elemet {
+.drag>.patentElemet {
     transform: rotate(15deg) !important;
+}
+
+.ghost {
+    background-color: rgba(211, 211, 211, 0.082);
+    border-radius: 6px;
+}
+
+.ghost>.patentElemet {
+    visibility: hidden;
 }
 
 // end main

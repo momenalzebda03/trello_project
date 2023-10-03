@@ -12,7 +12,16 @@
                 </div>
             </div>
         </div>
-        <text-card :cards="posts?.cards" :postId="posts?.id" @functionDelete="emitDataToParent" />
+        <draggable v-model="posts.cards" drag-class="drag" ghost-class="ghost" group="people"
+            class="d-flex flex-column gap-3">
+            <template #item="{ element }">
+                <div>
+                    <div class="patentElemet">
+                        <text-card :cards="element" :postId="posts?.id" @functionDelete="emitDataToParent" />
+                    </div>
+                </div>
+            </template>
+        </draggable>
         <div class=" d-flex justify-content-between pe-1" :class="{ 'd-none': textNone[posts?.id] }"
             @click="cardBlock(posts?.id, index)">
             <div class="div_bottom mouse_all color_text py-1 rounded-3 d-flex align-items-center w-100 p-2">
@@ -36,6 +45,7 @@
 </template>
 
 <script setup>
+import draggable from 'vuedraggable';
 const props = defineProps({
     posts: Array,
     isTrue: Boolean
