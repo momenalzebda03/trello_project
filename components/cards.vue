@@ -12,7 +12,7 @@
                 </div>
             </div>
         </div>
-        <draggable v-model="posts.cards" drag-class="drag" ghost-class="ghost" group="people"
+        <draggable v-model="posts.cards" drag-class="drag" ghost-class="ghost" group="people" item-key="id"
             class="d-flex flex-column gap-3">
             <template #item="{ element }">
                 <div>
@@ -34,7 +34,7 @@
         </div>
         <form class="deleteNone align-items-center gap-2" :class="{ 'd-block': textBlock[posts?.id] }"
             @submit.prevent="addList(posts?.id)">
-            <input placeholder="enter a title for this card..." ref="inputFoucs" @click="cardBlock(posts?.id, index)"
+            <input placeholder="enter a title for this card..." ref="inputFocus" @click="cardBlock(posts?.id, index)"
                 class="rounded-3 text-white ps-2 border border-0 w-100 py-3" v-model="cardTitle" />
             <div class="d-flex gap-2 align-items-center mt-2">
                 <button type="submit" class="p-1 px-3 text-black btn btn-primary">add list</button>
@@ -54,7 +54,7 @@ const props = defineProps({
 const deleteBoolen = ref({});
 const textBlock = ref({});
 const textNone = ref({});
-const inputFoucs = ref([]);
+const inputFocus = ref([]);
 const cardTitle = ref('');
 const emit = defineEmits(["emitDataToParent", "reloadDelete", "reloadTitle"]);
 
@@ -101,15 +101,15 @@ function closeCard(postId) {
     textNone.value[postId] = false;
 }
 
-function cardBlock(postId, index) {
+function cardBlock(postId) {
     Object.keys(textBlock.value).forEach((key) => {
         textBlock.value[key] = false;
         textNone.value[key] = false;
     });
 
     setTimeout(() => {
-        if (inputFoucs.value[index])
-            inputFoucs.value[index].focus();
+        if (inputFocus.value)
+            inputFocus.value.focus();
     }, 1)
 
     textBlock.value[postId] = !textBlock.value[postId];

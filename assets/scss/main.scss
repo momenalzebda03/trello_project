@@ -161,6 +161,10 @@ body .spanSize {
     visibility: hidden;
 }
 
+.nuxt-devtools-hide {
+    display: none;
+}
+
 // end main
 // start media
 @media(max-width: 990px) {

@@ -1,5 +1,6 @@
 <template>
-    <draggable v-model="posts" class="d-flex gap-3 flex-column flex-md-row" drag-class="drag" ghost-class="ghost">
+    <draggable v-model="posts" class="d-flex gap-3 flex-column flex-md-row" drag-class="drag" ghost-class="ghost"
+        item-key="id">
         <template #item="{ element }">
             <div>
                 <div class="patentElemet">
@@ -118,20 +119,17 @@ const deleteCard = async (cardId, postId) => {
             const cardIndexToDelete = trelloapi.cards.findIndex(
                 (item) => item.id == cardId
             );
-            if (cardIndexToDelete !== -1) {
-                trelloapi.cards.splice(cardIndexToDelete, 1);
-                const mybody = JSON.stringify(trelloapi);
-                request(`http://localhost:3000/Trello/${postId}`, { method: "put", body: mybody, postId }).then(() => {
-                    reload();
-                }).catch(error => {
-                    console.error(error);
-                })
-            }
+            trelloapi.cards.splice(cardIndexToDelete, 1);
+            const mybody = JSON.stringify(trelloapi);
+            request(`http://localhost:3000/Trello/${postId}`, { method: "put", body: mybody, postId }).then(() => {
+                reload();
+            }).catch(error => {
+                console.error(error);
+            })
         })
         .catch((error) => {
             console.error(error);
         });
-    reload();
 }
 
 onMounted(async () => {
