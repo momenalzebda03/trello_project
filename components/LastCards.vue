@@ -1,5 +1,5 @@
 <template>
-    <section class="d-flex gap-3">
+    <section class="d-flex flex-column-reverse flex-md-row gap-3">
         <draggable v-model="posts" class="d-flex gap-3 flex-column flex-md-row" drag-class="drag" ghost-class="ghost"
             item-key="id">
             <template #item="{ element }">

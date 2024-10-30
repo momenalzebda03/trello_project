@@ -46,11 +46,8 @@
 
 <script setup>
 import draggable from 'vuedraggable';
-const props = defineProps({
-    posts: Array,
-    isTrue: Boolean
-});
 
+const props = defineProps({ posts: Object, isTrue: Boolean })
 const deleteBoolen = ref({});
 const textBlock = ref({});
 const textNone = ref({});
