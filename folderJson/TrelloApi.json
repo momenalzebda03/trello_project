@@ -2,12 +2,8 @@
   "Trello": [
     {
       "MainTitle": "sssss",
-      "id": 1,
+      "id": "1",
       "cards": [
-        {
-          "id": 542,
-          "titleCard": "ddd"
-        },
         {
           "id": 844,
           "titleCard": "sadas"
@@ -15,36 +11,24 @@
       ]
     },
     {
-      "MainTitle": "qqq",
-      "id": 10,
+      "id": "27a3",
+      "MainTitle": "im is trello",
       "cards": [
         {
-          "id": 250,
-          "titleCard": "asdasd"
-        },
-        {
-          "id": 350,
-          "titleCard": "sadasd"
-        },
-        {
-          "id": 448,
-          "titleCard": "sssssssss"
+          "id": 332,
+          "titleCard": "jjj"
         }
       ]
     },
     {
-      "MainTitle": "asdasd",
-      "id": 12,
+      "id": "5196",
+      "MainTitle": "uygyu",
       "cards": [
         {
-          "id": 537,
-          "titleCard": "asdasd"
+          "id": 492,
+          "titleCard": "ll"
         }
       ]
-    },
-    {
-      "MainTitle": "jkkjlkj",
-      "id": 13
     }
   ]
 }

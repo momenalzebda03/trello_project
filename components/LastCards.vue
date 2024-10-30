@@ -1,30 +1,32 @@
 <template>
-    <draggable v-model="posts" class="d-flex gap-3 flex-column flex-md-row" drag-class="drag" ghost-class="ghost"
-        item-key="id">
-        <template #item="{ element }">
-            <div>
-                <div class="patentElemet">
-                    <cards :posts="element" @reloadDelete="deletePost" @emitDataToParent="deleteCard" @reloadTitle="ApiPost"
-                        :isTrue="isTrue" />
+    <section class="d-flex gap-3">
+        <draggable v-model="posts" class="d-flex gap-3 flex-column flex-md-row" drag-class="drag" ghost-class="ghost"
+            item-key="id">
+            <template #item="{ element }">
+                <div>
+                    <div class="patentElemet">
+                        <cards :posts="element" @reloadDelete="deletePost" @emitDataToParent="deleteCard"
+                            @reloadTitle="ApiPost" :isTrue="isTrue" />
+                    </div>
                 </div>
+            </template>
+        </draggable>
+        <section class="text-white rounded-3 div_all div_lastcards d-flex" :class="{ 'card_list': boolen }">
+            <div class="d-flex gap-2 w-100 ps-3 pt-3 div_cards mouse_all" v-if="tagBlock" @click="control">
+                <i class="mt-1 icon_top fas fa-plus"></i>
+                <h2 class="fs-6 title_size">add another list</h2>
             </div>
-        </template>
-    </draggable>
-    <section class="text-white rounded-3 div_all div_lastcards d-flex" :class="{ 'card_list': boolen }">
-        <div class="d-flex gap-2 w-100 ps-3 pt-3 div_cards mouse_all" v-if="tagBlock" @click="control">
-            <i class="mt-1 icon_top fas fa-plus"></i>
-            <h2 class="fs-6 title_size">add another list</h2>
-        </div>
-        <form class="ps-3 mt-3 w-100" @submit.prevent="postMainTitle" v-show="tagNone">
-            <div class="d-flex flex-column gap-2">
-                <input type="text" class="inputAdd rounded-1 border border-0 text-white ps-2 py-1"
-                    placeholder="Enter List Title..." ref="inputFocus" v-model="MainTitle" />
-                <div class="d-flex align-items-center gap-2">
-                    <button type="submit" class="p-1 px-3 text-black btn btn-primary">add list</button>
-                    <i class="color_text fas fa-times fs-4 mouse_all" @click="closeCard"></i>
+            <form class="ps-3 mt-3 w-100" @submit.prevent="postMainTitle" v-show="tagNone">
+                <div class="d-flex flex-column gap-2">
+                    <input type="text" class="inputAdd rounded-1 border border-0 text-white ps-2 py-1"
+                        placeholder="Enter List Title..." ref="inputFocus" v-model="MainTitle" />
+                    <div class="d-flex align-items-center gap-2">
+                        <button type="submit" class="p-1 px-3 text-black btn btn-primary">add list</button>
+                        <i class="color_text fas fa-times fs-4 mouse_all" @click="closeCard"></i>
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </section>
     </section>
 </template>
 
@@ -37,6 +39,7 @@ const tagBlock = ref(true);
 const tagNone = ref(false);
 const inputFocus = ref(null);
 const isTrue = ref(false);
+const urlApi = ref("http://localhost:4000/Trello");
 
 function control() {
     boolen.value = true;
@@ -54,18 +57,18 @@ function closeCard() {
 }
 
 const reload = async () => {
-    const { data } = await useFetch("http://localhost:3000/Trello");
+    const { data } = await useFetch(urlApi.value);
     return posts.value = data.value;
 };
 
 const postMainTitle = async () => {
-    if (MainTitle.value.trim() === '') {
+    if (MainTitle.value.trim() == '') {
         return;
     }
     const postData = {
         MainTitle: MainTitle.value,
     };
-    await request("http://localhost:3000/Trello", { method: "post", body: postData }).then(() => {
+    await request(urlApi.value, { method: "post", body: postData }).then(() => {
         reload();
         MainTitle.value = '';
     }).catch(error => {
@@ -74,7 +77,7 @@ const postMainTitle = async () => {
 };
 
 const deletePost = async (id) => {
-    await useFetch(`http://localhost:3000/Trello/${id}`, {
+    await useFetch(`${urlApi.value}/${id}`, {
         method: "delete",
     }).catch((error) => {
         console.error(error);
@@ -86,7 +89,7 @@ const ApiPost = async (postId, cardTitle) => {
     if (cardTitle.trim() === '') {
         return;
     }
-    await fetch(`http://localhost:3000/Trello/${postId}`)
+    await fetch(`${urlApi.value}/${postId}`)
         .then((response) => {
             return response.json();
         })
@@ -100,7 +103,7 @@ const ApiPost = async (postId, cardTitle) => {
             }
             trelloapi.cards.push(newCard);
             const mybody = JSON.stringify(trelloapi);
-            request(`http://localhost:3000/Trello/${postId}`, { method: "put", body: mybody, postId }).then(() => {
+            request(`${urlApi.value}/${postId}`, { method: "put", body: mybody, postId }).then(() => {
                 reload();
                 isTrue.value = !isTrue.value;
             });
@@ -111,7 +114,7 @@ const ApiPost = async (postId, cardTitle) => {
 }
 
 const deleteCard = async (cardId, postId) => {
-    await fetch(`http://localhost:3000/Trello/${postId}`)
+    await fetch(`${urlApi.value}/${postId}`)
         .then((response) => {
             return response.json();
         })
@@ -121,7 +124,7 @@ const deleteCard = async (cardId, postId) => {
             );
             trelloapi.cards.splice(cardIndexToDelete, 1);
             const mybody = JSON.stringify(trelloapi);
-            request(`http://localhost:3000/Trello/${postId}`, { method: "put", body: mybody, postId }).then(() => {
+            request(`${urlApi.value}/${postId}`, { method: "put", body: mybody, postId }).then(() => {
                 reload();
             }).catch(error => {
                 console.error(error);

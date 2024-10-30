@@ -1,4 +1,6 @@
 <template>
-    <navbar />
-    <RouterView />
+    <div>
+        <navbar />
+        <RouterView />
+    </div>
 </template>
