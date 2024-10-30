@@ -86,7 +86,7 @@ const deletePost = async (id) => {
 }
 
 const ApiPost = async (postId, cardTitle) => {
-    if (cardTitle.trim() === '') {
+    if (cardTitle.trim() == '') {
         return;
     }
     await fetch(`${urlApi.value}/${postId}`)

@@ -4,12 +4,9 @@
         <i class="fas fa-pencil-alt iconPeincle d-none" @click="deleteTitleCard(cards?.id, props.postId)"></i>
     </section>
 </template>
-  
+
 <script setup>
-const props = defineProps({
-    cards: Array,
-    postId: Boolean
-});
+const props = defineProps({ cards: Object });
 
 const emit = defineEmits(["functionDelete"])
 
